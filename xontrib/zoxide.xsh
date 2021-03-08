@@ -4,4 +4,5 @@ import xonsh
 __all__ = ()
 
 
-execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
+with ${...}.swap(UPDATE_OS_ENVIRON=True):
+    execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
