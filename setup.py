@@ -9,7 +9,7 @@ except (IOError, OSError):
 
 setuptools.setup(
     name='xontrib-zoxide',
-    version='0.2.0',
+    version='0.3.0',
     license='MIT',
     author='Gyuri Horak',
     author_email='dyuri@horak.hu',
