@@ -18,9 +18,9 @@ def _cache_zoxide_init(zoxide_init, z_cache_path):
 
 def  _initZoxide():
   if cache_home := os.environ.get("XDG_CACHE_HOME"):
-    z_cache_path = pathlib.Path(cache_home).expanduser() / "zoxide" / _cache_name
+    z_cache_path = Path(cache_home).expanduser() / "zoxide" / _cache_name
   else:
-    z_cache_path	= pathlib.Path(os.path.dirname(__file__)).parent / _cache_name
+    z_cache_path	= Path(os.path.dirname(__file__)).parent / _cache_name
   sys.path.append(str(z_cache_path.parent))
 
   zoxide_init_proc	= subprocess.run(["zoxide",'init','xonsh'],capture_output=True)
