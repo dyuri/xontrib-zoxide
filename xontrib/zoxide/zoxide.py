@@ -9,17 +9,19 @@ _cache_name	= "zoxide_init_cache.py"
 __all__ = ()
 
 def _cache_zoxide_init(zoxide_init, z_cache_path):
-  if not (z_cache_name := Path(z_cache_path).name) == _cache_name:
+  if not (z_cache_name := z_cache_path.name) == _cache_name:
     print(f"xontrib-zoxide: error: cache file should be '{_cache_name}', got {z_cache_name}")
     return
   print("xontrib-zoxide: creating a zoxide init cache file too speed up subsequent loads")
-  with open(z_cache_path, 'wb') as f:
+  with z_cache_path.open('wb') as f:
     f.write(zoxide_init)
 
 def  _initZoxide():
-  script_path 	= os.path.dirname(__file__)
-  z_cache_path	= os.path.join(script_path,_cache_name)
-  sys.path.append(script_path)
+  if cache_home := os.environ.get("XDG_CACHE_HOME"):
+    z_cache_path = pathlib.Path(cache_home).expanduser() / "zoxide" / _cache_name
+  else:
+    z_cache_path	= pathlib.Path(os.path.dirname(__file__)).parent / _cache_name
+  sys.path.append(str(z_cache_path.parent))
 
   zoxide_init_proc	= subprocess.run(["zoxide",'init','xonsh'],capture_output=True)
   zoxide_init     	= zoxide_init_proc.stdout
@@ -30,12 +32,12 @@ def  _initZoxide():
     print(zoxide_init_err.decode())
     return
 
-  if not Path(z_cache_path).exists(): # Cache & Load (slow)
+  if not z_cache_path.exists(): # Cache & Load (slow)
     _cache_zoxide_init(zoxide_init, z_cache_path)
     execx(zoxide_init.decode(), 'exec', XSH.ctx, filename='zoxide')
   else:                               # Hash & Load
-    hash_init  = hashlib.md5(     zoxide_init              ).hexdigest()
-    hash_cache = hashlib.md5(open(z_cache_path,'rb').read()).hexdigest()
+    hash_init  = hashlib.md5(     zoxide_init         ).hexdigest()
+    hash_cache = hashlib.md5(z_cache_path.read_bytes()).hexdigest()
 
     if hash_init == hash_cache:       # Load fast from cache
       import zoxide_init_cache
