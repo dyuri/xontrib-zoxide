@@ -28,10 +28,10 @@ Code           	= "https://github.com/dyuri/xontrib-zoxide"
 "Issue tracker"	= "https://github.com/dyuri/xontrib-zoxide/issues"
 
 [tool.poetry.dependencies]
-python	= ">=3.7"
+python	= ">=3.11"
 xonsh 	= ">=0.12.5"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = ">=7.0"
 
 [build-system]
