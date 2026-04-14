@@ -12,7 +12,7 @@ def _cache_zoxide_init(zoxide_init, z_cache_path):
   if not (z_cache_name := z_cache_path.name) == _cache_name:
     print(f"xontrib-zoxide: error: cache file should be '{_cache_name}', got {z_cache_name}")
     return
-  print("xontrib-zoxide: creating a zoxide init cache file too speed up subsequent loads")
+  print("xontrib-zoxide: creating a zoxide init cache file to speed up subsequent loads")
   with z_cache_path.open('wb') as f:
     f.write(zoxide_init)
 
